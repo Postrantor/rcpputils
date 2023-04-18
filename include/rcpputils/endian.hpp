@@ -47,23 +47,40 @@ using std::endian;
 
 namespace rcpputils
 {
-/*! \enum endian
+/*!
+ * \enum endian
+ * \brief 定义编译时字节序的类型特征。
  * \brief Type traits for defining the endianness at compile-time.
  *
+ * [cppreference.com 文档](https://en.cppreference.com/w/cpp/types/endian#Possible_implementation)
  * [cppreference.com documentation](https://en.cppreference.com/w/cpp/types/endian#Possible_implementation)
  *
+ *  来源：https://en.cppreference.com/w/Cppreference:FAQ，此代码已获得 Creative Commons
+ * Attribution-Sharealike 3.0 Unported License (CC-BY-SA) 许可。
  *  From: https://en.cppreference.com/w/Cppreference:FAQ, this is licensed Creative Commons
  * Attribution-Sharealike 3.0 Unported License (CC-BY-SA)
  */
 enum class endian
 {
 #ifdef _WIN32
+  // 在 Windows 平台上，定义 little 为 0
+  // On Windows platform, define little as 0
   little = 0,
+  // 在 Windows 平台上，定义 big 为 1
+  // On Windows platform, define big as 1
   big    = 1,
+  // 在 Windows 平台上，定义 native 为 little（默认小端字节序）
+  // On Windows platform, define native as little (default to little-endian)
   native = little
 #else
+  // 在非 Windows 平台上，通过预处理器宏 __ORDER_LITTLE_ENDIAN__ 定义 little
+  // On non-Windows platforms, define little by preprocessor macro __ORDER_LITTLE_ENDIAN__
   little = __ORDER_LITTLE_ENDIAN__,
+  // 在非 Windows 平台上，通过预处理器宏 __ORDER_BIG_ENDIAN__ 定义 big
+  // On non-Windows platforms, define big by preprocessor macro __ORDER_BIG_ENDIAN__
   big    = __ORDER_BIG_ENDIAN__,
+  // 在非 Windows 平台上，通过预处理器宏 __BYTE_ORDER__ 定义 native
+  // On non-Windows platforms, define native by preprocessor macro __BYTE_ORDER__
   native = __BYTE_ORDER__
 #endif
 };

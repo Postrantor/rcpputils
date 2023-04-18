@@ -16,23 +16,59 @@
 
 namespace rcpputils
 {
+/**
+ * @brief AssertionException 构造函数
+ * @param msg 异常消息
+ *
+ * @brief AssertionException constructor
+ * @param msg Exception message
+ */
 AssertionException::AssertionException(const char * msg)
 {
+  // 将输入的异常消息赋值给成员变量 msg_
+  // Assign the input exception message to the member variable msg_
   msg_ = msg;
 }
 
+/**
+ * @brief 获取异常信息
+ * @return 异常信息字符串
+ *
+ * @brief Get exception information
+ * @return Exception information string
+ */
 const char * AssertionException::what() const noexcept
 {
+  // 返回成员变量 msg_ 的 C 风格字符串
+  // Return the C-style string of the member variable msg_
   return msg_.c_str();
 }
 
+/**
+ * @brief IllegalStateException 构造函数
+ * @param msg 异常消息
+ *
+ * @brief IllegalStateException constructor
+ * @param msg Exception message
+ */
 IllegalStateException::IllegalStateException(const char * msg)
 {
+  // 将输入的异常消息赋值给成员变量 msg_
+  // Assign the input exception message to the member variable msg_
   msg_ = msg;
 }
 
+/**
+ * @brief 获取异常信息
+ * @return 异常信息字符串
+ *
+ * @brief Get exception information
+ * @return Exception information string
+ */
 const char * IllegalStateException::what() const noexcept
 {
+  // 返回成员变量 msg_ 的 C 风格字符串
+  // Return the C-style string of the member variable msg_
   return msg_.c_str();
 }
-}  // namespace rcpputils
+} // namespace rcpputils

@@ -30,58 +30,77 @@
 #define RCPPUTILS__VISIBILITY_CONTROL_HPP_
 
 /*! \file visibility_control.hpp
-  * \brief Macros for controlling visibilty of exported iterfaces.
-  *
-  * This logic was borrowed (then namespaced) from the examples on the gcc wiki:
-  *     https://gcc.gnu.org/wiki/Visibility
-  */
+ * \brief Macros for controlling visibilty of exported iterfaces.
+ *
+ * 这个文件包含一些控制导出接口可见性的宏。
+ * 
+ * This logic was borrowed (then namespaced) from the examples on the gcc wiki:
+ *     https://gcc.gnu.org/wiki/Visibility
+ * 这些逻辑参考了 gcc wiki 上的示例（然后进行了命名空间处理）：
+ *     https://gcc.gnu.org/wiki/Visibility
+ */
+
 /**
-  * \def RCPPUTILS_EXPORT
-  * \brief Exposes the function with its decorated name in the compiled library object.
-  */
+ * \def RCPPUTILS_EXPORT
+ * \brief Exposes the function with its decorated name in the compiled library object.
+ *
+ * 在编译库对象中，以修饰过的名称暴露函数。
+ */
+
 /**
-  * \def RCPPUTILS_IMPORT
-  * \brief On Windows declares a function will be imported from a dll, otherwise it is empty
-  */
+ * \def RCPPUTILS_IMPORT
+ * \brief On Windows declares a function will be imported from a dll, otherwise it is empty
+ *
+ * 在 Windows 上声明将从 dll 导入一个函数，否则它是空的。
+ */
+
 /**
-  * \def RCPPUTILS_PUBLIC
-  * \brief Declares symbols and functions will be visible for export.
-  */
+ * \def RCPPUTILS_PUBLIC
+ * \brief Declares symbols and functions will be visible for export.
+ *
+ * 声明符号和函数将对导出可见。
+ */
+
 /**
-  * \def RCPPUTILS_PUBLIC_TYPE
-  * \brief On Windows, this is a replica of RCPPUTILS_PUBLIC, otherwise it is empty.
-  */
+ * \def RCPPUTILS_PUBLIC_TYPE
+ * \brief On Windows, this is a replica of RCPPUTILS_PUBLIC, otherwise it is empty.
+ *
+ * 在 Windows 上，这是 RCPPUTILS_PUBLIC 的副本，否则它是空的。
+ */
+
 /**
-  * \def RCPPUTILS_LOCAL
-  * \brief Declares symbols cannot be exported from the dll.
-  */
+ * \def RCPPUTILS_LOCAL
+ * \brief Declares symbols cannot be exported from the dll.
+ *
+ * 声明符号不能从 dll 中导出。
+ */
 
 #if defined _WIN32 || defined __CYGWIN__
-  #ifdef __GNUC__
-    #define RCPPUTILS_EXPORT __attribute__ ((dllexport))
-    #define RCPPUTILS_IMPORT __attribute__ ((dllimport))
-  #else
-    #define RCPPUTILS_EXPORT __declspec(dllexport)
-    #define RCPPUTILS_IMPORT __declspec(dllimport)
-  #endif
-  #ifdef RCPPUTILS_BUILDING_LIBRARY
-    #define RCPPUTILS_PUBLIC RCPPUTILS_EXPORT
-  #else
-    #define RCPPUTILS_PUBLIC RCPPUTILS_IMPORT
-  #endif
-  #define RCPPUTILS_PUBLIC_TYPE RCPPUTILS_PUBLIC
-  #define RCPPUTILS_LOCAL
+#ifdef __GNUC__
+#define RCPPUTILS_EXPORT __attribute__((dllexport))
+#define RCPPUTILS_IMPORT __attribute__((dllimport))
 #else
-  #define RCPPUTILS_EXPORT __attribute__ ((visibility("default")))
-  #define RCPPUTILS_IMPORT
-  #if __GNUC__ >= 4
-    #define RCPPUTILS_PUBLIC __attribute__ ((visibility("default")))
-    #define RCPPUTILS_LOCAL  __attribute__ ((visibility("hidden")))
-  #else
-    #define RCPPUTILS_PUBLIC
-    #define RCPPUTILS_LOCAL
-  #endif
-  #define RCPPUTILS_PUBLIC_TYPE
+#define RCPPUTILS_EXPORT __declspec(dllexport)
+#define RCPPUTILS_IMPORT __declspec(dllimport)
+#endif
+#ifdef RCPPUTILS_BUILDING_LIBRARY
+#define RCPPUTILS_PUBLIC RCPPUTILS_EXPORT
+#else
+#define RCPPUTILS_PUBLIC RCPPUTILS_IMPORT
+#endif
+#define RCPPUTILS_PUBLIC_TYPE RCPPUTILS_PUBLIC
+#define RCPPUTILS_LOCAL
+#else
+#define RCPPUTILS_EXPORT __attribute__((visibility("default")))
+#define RCPPUTILS_IMPORT
+#if __GNUC__ >= 4
+#define RCPPUTILS_PUBLIC __attribute__((visibility("default")))
+#define RCPPUTILS_LOCAL __attribute__((visibility("hidden")))
+#else
+#define RCPPUTILS_PUBLIC
+#define RCPPUTILS_LOCAL
+#endif
+#define RCPPUTILS_PUBLIC_TYPE
 #endif
 
-#endif  // RCPPUTILS__VISIBILITY_CONTROL_HPP_
+#endif // RCPPUTILS__VISIBILITY_CONTROL_HPP_

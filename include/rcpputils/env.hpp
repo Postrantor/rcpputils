@@ -36,21 +36,30 @@
 namespace rcpputils
 {
 
+/// 从环境变量中获取给定变量的值，如果存在，则返回其值；否则返回空字符串。
 /// Retrieve the value of the given environment variable if it exists, or "".
 /*
+ * \param[in] env_var 环境变量的名称
  * \param[in] env_var the name of the environment variable
+ * \return 如果环境变量存在，则返回其值；否则返回空字符串。
  * \return The value of the environment variable if it exists, or "".
+ * \throws std::runtime_error 出错时抛出
  * \throws std::runtime_error on error
  */
 RCPPUTILS_PUBLIC
 std::string get_env_var(const char * env_var);
 
+/// 设置/取消设置进程范围的环境变量。
 /// Set/un-set a process-scoped environment variable.
 /*
+ *  \param[in] env_var 环境变量的名称
  *  \param[in] env_var The name of the environment variable.
+ *  \param[in] env_value 要设置的环境变量值，或者为`NULL`以取消设置。
  *  \param[in] env_value Value to set the environment variable to, or `NULL`
  *    to un-set.
+ *  \return 表示操作是否成功的布尔值。
  *  \return Boolean representing whether the operation was successful.
+ *  \throws std::runtime_error 如果 env_name 无效/NULL，或者设置环境变量失败。
  *  \throws std::runtime_error if env_name is invalid/NULL, or if setting
  *    the environment variable fails.
  *
@@ -58,6 +67,6 @@ std::string get_env_var(const char * env_var);
 RCPPUTILS_PUBLIC
 bool set_env_var(const char * env_var, const char * env_value);
 
-}  // namespace rcpputils
+} // namespace rcpputils
 
-#endif  // RCPPUTILS__ENV_HPP_
+#endif // RCPPUTILS__ENV_HPP_

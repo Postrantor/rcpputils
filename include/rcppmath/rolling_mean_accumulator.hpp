@@ -17,16 +17,22 @@
 
 #include "rcpputils/rolling_mean_accumulator.hpp"
 
-#warning \
-  "the rcppmath namespace is deprecated, include rcpputils/rolling_mean_accumulator.hpp instead"
+// 警告: rcppmath 命名空间已被弃用，请改为包含 rcpputils/rolling_mean_accumulator.hpp
+// Warning: the rcppmath namespace is deprecated, include rcpputils/rolling_mean_accumulator.hpp instead
+#warning "the rcppmath namespace is deprecated, include rcpputils/rolling_mean_accumulator.hpp instead"
 
+// 声明 rcppmath 命名空间
+// Declare the rcppmath namespace
 namespace rcppmath
 {
 
-template<typename T>
+// 使用模板类定义 RollingMeanAccumulator 类型，将其标记为已弃用，并建议使用 rcpputils::RollingMeanAccumulator 替代
+// Define the RollingMeanAccumulator type using a template class, mark it as deprecated and suggest using rcpputils::RollingMeanAccumulator instead
+template <typename T>
 using RollingMeanAccumulator [[deprecated("use rcpputils::RollingMeanAccumulator instead")]] =
   rcpputils::RollingMeanAccumulator<T>;
 
-}  // namespace rcppmath
+} // 结束 rcppmath 命名空间
+  // End of the rcppmath namespace
 
-#endif  // RCPPMATH__ROLLING_MEAN_ACCUMULATOR_HPP_
+#endif // RCPPMATH__ROLLING_MEAN_ACCUMULATOR_HPP_

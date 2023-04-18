@@ -45,6 +45,16 @@ namespace rcpputils
 {
 
 /// @cond
+
+/// 将指定输入使用分隔符和类型擦除的插入迭代器拆分为 tokens。
+/**
+ * 返回的向量将包含从输入中拆分出的 tokens
+ *
+ * \param[in] input 要拆分的输入字符串
+ * \param[in] delim 用于拆分输入字符串的分隔符
+ * \param[in] it 指向存储容器的迭代器
+ * \param[in] skip_empty 从返回向量中删除空字符串
+ */
 /// Split a specified input into tokens using a delimiter and a type erased insert iterator.
 /**
  * The returned vector will contain the tokens split from the input
@@ -54,28 +64,53 @@ namespace rcpputils
  * \param[in] it iterator pointing to a storage container
  * \param[in] skip_empty remove empty strings from the return vector
  */
-template<
+template <
   class InsertIterator,
-  typename std::enable_if<
-    std::is_same<
-      InsertIterator &,
-      decltype(std::declval<InsertIterator>().operator=(std::declval<std::string>()))>::value
-  >::type * = nullptr>
-void
-split(const std::string & input, char delim, InsertIterator & it, bool skip_empty = false)
+  typename std::enable_if<std::is_same<
+    InsertIterator &,
+    decltype(std::declval<InsertIterator>().operator=(std::declval<std::string>()))>::value>::
+    type * = nullptr>
+void split(const std::string & input, char delim, InsertIterator & it, bool skip_empty = false)
 {
+  // 创建一个字符串流对象
+  // Create a stringstream object
   std::stringstream ss;
+
+  // 将输入字符串设置为字符串流的内容
+  // Set the input string as the content of the stringstream
   ss.str(input);
+
+  // 定义一个临时存储子串的字符串变量
+  // Define a temporary string variable to store substrings
   std::string item;
+
+  // 使用 getline 函数从字符串流中按分隔符提取子串，并将其存储到 item 中
+  // 使用 while 循环，直到字符串流中没有更多子串为止
+  // Use the getline function to extract substrings from the stringstream according to the delimiter and store them in item
+  // Use a while loop until there are no more substrings in the stringstream
   while (std::getline(ss, item, delim)) {
+    // 如果启用了 skip_empty 选项并且当前子串为空，则跳过该子串
+    // If the skip_empty option is enabled and the current substring is empty, skip it
     if (skip_empty && item == "") {
       continue;
     }
+
+    // 将非空子串插入到存储容器中
+    // Insert non-empty substrings into the storage container
     it = item;
   }
 }
 /// @endcond
 
+/// 使用分隔符将指定输入拆分为 tokens。
+/**
+ * 返回的向量将包含从输入中拆分出的 tokens
+ *
+ * \param[in] input 要拆分的输入字符串
+ * \param[in] delim 用于拆分输入字符串的分隔符
+ * \param[in] skip_empty 从返回向量中删除空字符串
+ * \return 包含 tokens 的向量。
+ */
 /// Split a specified input into tokens using a delimiter.
 /**
  * The returned vector will contain the tokens split from the input
@@ -88,11 +123,22 @@ split(const std::string & input, char delim, InsertIterator & it, bool skip_empt
 inline std::vector<std::string>
 split(const std::string & input, char delim, bool skip_empty = false)
 {
+  // 创建一个存储结果的字符串向量
+  // Create a string vector to store the result
   std::vector<std::string> result;
+
+  // 创建一个插入迭代器，用于将子串插入到结果向量中
+  // Create an insert iterator for inserting substrings into the result vector
   auto it = std::back_inserter(result);
+
+  // 调用前面定义的 split 函数来拆分输入字符串
+  // Call the previously defined split function to split the input string
   split(input, delim, it, skip_empty);
+
+  // 返回包含 tokens 的结果向量
+  // Return the result vector containing tokens
   return result;
 }
-}  // namespace rcpputils
+} // namespace rcpputils
 
-#endif  // RCPPUTILS__SPLIT_HPP_
+#endif // RCPPUTILS__SPLIT_HPP_
